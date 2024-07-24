@@ -19,51 +19,51 @@ class PublishCommandTest extends BaseTestCase
     public function test_adds_sample_file_into_settings(): void
     {
         $this->artisan('settings:publish')
-            ->expectsOutput("Manifest published. Check it at: {$this->app->basePath('settings/users.php')}")
+            ->expectsOutput("Manifest published. Check it at: {$this->app->basePath('App/UserPreferences/users.php')}")
             ->assertExitCode(0);
 
-        static::assertFileExists($this->app->basePath('settings/users.php'));
+        static::assertFileExists($this->app->basePath('App/UserPreferences/users.php'));
     }
 
     public function test_confirms_manifest_replace(): void
     {
-        $this->filesystem->ensureDirectoryExists($this->app->basePath('settings'));
-        $this->filesystem->put($this->app->basePath('settings/users.php'), '');
+        $this->filesystem->ensureDirectoryExists($this->app->basePath('App/UserPreferences'));
+        $this->filesystem->put($this->app->basePath('App/UserPreferences/users.php'), '');
 
         $this->artisan('settings:publish')
             ->expectsConfirmation('A manifest file already exists. Overwrite?')
             ->assertExitCode(0);
 
-        static::assertFileExists($this->app->basePath('settings/users.php'));
+        static::assertFileExists($this->app->basePath('App/UserPreferences/users.php'));
         static::assertStringEqualsFile(
-            $this->app->basePath('settings/users.php'),
+            $this->app->basePath('App/UserPreferences/users.php'),
             ''
         );
     }
 
     public function test_replaces_manifest_once_confirmed(): void
     {
-        $this->filesystem->ensureDirectoryExists($this->app->basePath('settings'));
-        $this->filesystem->put($this->app->basePath('settings/users.php'), '');
+        $this->filesystem->ensureDirectoryExists($this->app->basePath('App/UserPreferences'));
+        $this->filesystem->put($this->app->basePath('App/UserPreferences/users.php'), '');
 
         $this->artisan('settings:publish')
             ->expectsConfirmation('A manifest file already exists. Overwrite?', 'yes')
-            ->expectsOutput("Manifest published. Check it at: {$this->app->basePath('settings/users.php')}")
+            ->expectsOutput("Manifest published. Check it at: {$this->app->basePath('App/UserPreferences/users.php')}")
             ->assertExitCode(0);
 
-        static::assertFileExists($this->app->basePath('settings/users.php'));
+        static::assertFileExists($this->app->basePath('App/UserPreferences/users.php'));
 
         sleep(10);
 
         static::assertFileEquals(
             __DIR__ . '/../../../stubs/users.php',
-            $this->app->basePath('settings/users.php')
+            $this->app->basePath('App/UserPreferences/users.php')
         );
     }
 
     public function tearDown(): void
     {
-        $this->filesystem->deleteDirectory($this->app->basePath('settings'));
+        $this->filesystem->deleteDirectory($this->app->basePath('App/UserPreferences'));
 
         parent::tearDown();
     }

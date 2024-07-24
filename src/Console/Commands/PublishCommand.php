@@ -43,11 +43,11 @@ class PublishCommand extends Command
      */
     public function handle(): void
     {
-        $path = $this->getLaravel()->basePath('settings/users.php');
+        $path = $this->getLaravel()->basePath('App/UserPreferences/users.php');
 
         // Add the manifest if it doesn't exists, or if the user confirms the replace.
         if ($this->filesystem->missing($path) || $this->confirm('A manifest file already exists. Overwrite?')) {
-            $this->filesystem->ensureDirectoryExists($this->laravel->basePath('settings'));
+            $this->filesystem->ensureDirectoryExists($this->laravel->basePath('App/UserPreferences'));
             $this->filesystem->copy(static::STUB_PATH, $path);
 
             $this->info("Manifest published. Check it at: $path");
