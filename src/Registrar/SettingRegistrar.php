@@ -17,7 +17,7 @@ class SettingRegistrar
      *
      * @var string
      */
-    protected const MANIFEST_DIR = 'settings';
+    protected const MANIFEST_DIR = 'app/UserPreferences';
 
     /**
      * If the manifests has loaded.
