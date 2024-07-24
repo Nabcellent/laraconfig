@@ -30,7 +30,7 @@ class DynamicCasting implements CastsAttributes
     public function get(
         $model,
         string $key,
-        $value,
+        mixed $value,
         array $attributes
     ): array|bool|float|int|string|Collection|DateTimeInterface|null {
         if (null === $value) {
@@ -66,7 +66,7 @@ class DynamicCasting implements CastsAttributes
     public function set(
         $model,
         string $key,
-        $value,
+        mixed $value,
         array $attributes
     ): null|array|int|bool|float|string|Collection|DateTimeInterface {
         if (null === $value) {

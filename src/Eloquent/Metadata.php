@@ -27,13 +27,13 @@ use Illuminate\Support\Carbon;
 class Metadata extends Model
 {
     /* Just a bunch of constant to check the type of the declaration */
-    public const TYPE_ARRAY = 'array';
-    public const TYPE_COLLECTION = 'collection';
-    public const TYPE_DATETIME = 'datetime';
-    public const TYPE_STRING = 'string';
-    public const TYPE_INTEGER = 'integer';
-    public const TYPE_BOOLEAN = 'boolean';
-    public const TYPE_FLOAT = 'float';
+    public const string TYPE_ARRAY = 'array';
+    public const string TYPE_COLLECTION = 'collection';
+    public const string TYPE_DATETIME = 'datetime';
+    public const string TYPE_STRING = 'string';
+    public const string TYPE_INTEGER = 'integer';
+    public const string TYPE_BOOLEAN = 'boolean';
+    public const string TYPE_FLOAT = 'float';
 
     /**
      * The table associated with the model.

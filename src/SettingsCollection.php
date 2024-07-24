@@ -54,14 +54,14 @@ class SettingsCollection extends Collection
     /**
      * Returns the value of a setting.
      *
-     * @param  string  $name
+     * @param  string  $key
      * @param  mixed|null  $default
      *
      * @return Carbon|\Illuminate\Support\Collection|array|string|int|float|bool|null
      */
-    public function value($name, $default = null): Carbon|Collection|array|string|int|float|bool|null
+    public function value(string $key, $default = null): Carbon|Collection|array|string|int|float|bool|null
     {
-        $setting = $this->get($name, $default);
+        $setting = $this->get($key, $default);
 
         if ($setting instanceof Eloquent\Setting) {
             return $setting->value;
