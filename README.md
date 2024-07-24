@@ -1,8 +1,6 @@
-This package has been archived.
+The origin of this package has been archived.
 
-Sorry guys and gals, I bit more than I can chew and I'm currently not using this package to justify its support.
-
-I may revisit this in the near future.
+I am trying to keep it afloat.😃
 
 ---
 
@@ -22,7 +20,7 @@ User::find(1)->settings->set('color', 'red');
 
 ## Requirements
 
-- Laravel 9.11.x
+- Laravel 10 or later
 - PHP 8.1 or later
 
 ## How it works

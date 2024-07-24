@@ -19,7 +19,7 @@ class LaraconfigServiceProvider extends ServiceProvider
      *
      * @var array|string[]
      */
-    protected const MIGRATION_FILES = [
+    protected const array MIGRATION_FILES = [
         __DIR__ . '/../database/migrations/00_00_00_000000_create_user_settings_table.php',
         __DIR__ . '/../database/migrations/00_00_00_000000_create_user_settings_metadata_table.php',
     ];
@@ -31,6 +31,8 @@ class LaraconfigServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        ServiceProvider::addProviderToBootstrapFile(LaraconfigServiceProvider::class);
+
         $this->mergeConfigFrom(__DIR__.'/../config/laraconfig.php', 'laraconfig');
 
         $this->app->singleton(SettingRegistrar::class, static function($app): SettingRegistrar {
