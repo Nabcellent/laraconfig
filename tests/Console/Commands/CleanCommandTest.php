@@ -6,9 +6,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use Nabcellent\Laraconfig\Eloquent\Metadata;
 use Nabcellent\Laraconfig\Eloquent\Setting;
+use Orchestra\Testbench\Attributes\WithMigration;
 use Tests\BaseTestCase;
 use Tests\Dummies\DummyModel;
 
+#[WithMigration]
 class CleanCommandTest extends BaseTestCase
 {
     use RefreshDatabase;
@@ -35,46 +37,45 @@ class CleanCommandTest extends BaseTestCase
      */
     protected function defineDatabaseMigrations(): void
     {
-        $this->loadLaravelMigrations();
         $this->loadMigrationsFrom(__DIR__ . '/../../../database/migrations');
     }
 
     public function test_cleans_orphaned_settings(): void
     {
         Metadata::forceCreate([
-            'name' => 'foo',
-            'type' => 'string',
+            'name'    => 'foo',
+            'type'    => 'string',
             'default' => 'foo-value',
-            'bag' => 'users',
-            'group' => 'default',
+            'bag'     => 'users',
+            'group'   => 'default',
         ]);
 
         // Not orphaned.
         Setting::forceCreate([
-            'metadata_id' => 1,
+            'metadata_id'   => 1,
             'settable_type' => DummyModel::class,
-            'settable_id' => 1,
+            'settable_id'   => 1,
         ]);
 
         // Orphaned metadata, on user.
         Setting::forceCreate([
-            'metadata_id' => 99,
+            'metadata_id'   => 99,
             'settable_type' => DummyModel::class,
-            'settable_id' => 1,
+            'settable_id'   => 1,
         ]);
 
         // Orphaned user, on metadata
         Setting::forceCreate([
-            'metadata_id' => 1,
+            'metadata_id'   => 1,
             'settable_type' => DummyModel::class,
-            'settable_id' => 99,
+            'settable_id'   => 99,
         ]);
 
         // Totally orphaned
         Setting::forceCreate([
-            'metadata_id' => 99,
+            'metadata_id'   => 99,
             'settable_type' => DummyModel::class,
-            'settable_id' => 99,
+            'settable_id'   => 99,
         ]);
 
         $this->artisan('settings:clean')

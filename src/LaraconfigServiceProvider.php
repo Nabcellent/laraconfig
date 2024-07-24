@@ -4,6 +4,7 @@ namespace Nabcellent\Laraconfig;
 
 use Generator;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Foundation\Console\AboutCommand;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -60,10 +61,14 @@ class LaraconfigServiceProvider extends ServiceProvider
                 Console\Commands\CleanCommand::class,
             ]);
 
-            $this->publishes([__DIR__.'/../config/laraconfig.php' => config_path('laraconfig.php')], 'config');
+            $this->publishes([__DIR__.'/../config/laraconfig.php' => config_path('laraconfig.php')], 'laraconfig-config');
 
-            $this->publishes(iterator_to_array($this->migrationPathNames()), 'migrations');
+            $this->publishesMigrations([
+                __DIR__.'/../database/migrations' => database_path('migrations'),
+            ], 'laraconfig-migrations');
         }
+
+        AboutCommand::add('Laraconfig', fn () => ['Version' => '2.0']);
     }
 
     /**

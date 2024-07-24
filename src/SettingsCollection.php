@@ -59,7 +59,7 @@ class SettingsCollection extends Collection
      *
      * @return Carbon|\Illuminate\Support\Collection|array|string|int|float|bool|null
      */
-    public function value(string $key, $default = null): Carbon|Collection|array|string|int|float|bool|null
+    public function value($key, $default = null): Carbon|Collection|array|string|int|float|bool|null
     {
         $setting = $this->get($key, $default);
 

@@ -41,7 +41,7 @@ class ServiceProviderTest extends BaseTestCase
             'vendor:publish',
             [
                 '--provider' => 'Nabcellent\Laraconfig\LaraconfigServiceProvider',
-                '--tag' => 'config',
+                '--tag' => 'laraconfig-config',
             ]
         )->execute();
 
@@ -56,7 +56,7 @@ class ServiceProviderTest extends BaseTestCase
             'vendor:publish',
             [
                 '--provider' => 'Nabcellent\Laraconfig\LaraconfigServiceProvider',
-                '--tag' => 'migrations',
+                '--tag' => 'laraconfig-migrations',
             ]
         )->run();
 
@@ -64,13 +64,13 @@ class ServiceProviderTest extends BaseTestCase
 
         static::assertTrue($files->contains(
             static function (SplFileInfo $file): bool {
-                return preg_match('/.+\d{4}_\d{2}_\d{2}_\d{6}_(create_user_settings_table.php)$/', $file->getPathname());
+                return preg_match('/.+\d{2}_\d{2}_\d{2}_\d{6}_(create_user_settings_table.php)$/', $file->getPathname());
             })
         );
 
         static::assertTrue($files->contains(
             static function (SplFileInfo $file): bool {
-                return preg_match('/.+\d{4}_\d{2}_\d{2}_\d{6}_(create_user_settings_metadata_table.php)$/', $file->getPathname());
+                return preg_match('/.+\d{2}_\d{2}_\d{2}_\d{6}_(create_user_settings_metadata_table.php)$/', $file->getPathname());
             })
         );
     }

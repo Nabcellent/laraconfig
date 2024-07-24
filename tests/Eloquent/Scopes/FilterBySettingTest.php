@@ -7,8 +7,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Nabcellent\Laraconfig\Eloquent\Metadata;
 use Nabcellent\Laraconfig\Eloquent\Setting;
 use Nabcellent\Laraconfig\HasConfig;
+use Orchestra\Testbench\Attributes\WithMigration;
 use Tests\BaseTestCase;
 use Tests\Dummies\DummyModel;
+#[WithMigration]
 
 class FilterBySettingTest extends BaseTestCase
 {
@@ -21,7 +23,6 @@ class FilterBySettingTest extends BaseTestCase
      */
     protected function defineDatabaseMigrations(): void
     {
-        $this->loadLaravelMigrations();
         $this->loadMigrationsFrom(__DIR__.'/../../../database/migrations');
     }
 

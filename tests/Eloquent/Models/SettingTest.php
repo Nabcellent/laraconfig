@@ -9,8 +9,10 @@ use Nabcellent\Laraconfig\SettingsCache;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Orchestra\Testbench\Attributes\WithMigration;
 use Tests\BaseTestCase;
 
+#[WithMigration]
 class SettingTest extends BaseTestCase
 {
     use RefreshDatabase;
@@ -46,7 +48,7 @@ class SettingTest extends BaseTestCase
      */
     protected function defineDatabaseMigrations(): void
     {
-        $this->loadLaravelMigrations();
+//        $this->loadLaravelMigrations();
         $this->loadMigrationsFrom(__DIR__.'/../../../database/migrations');
     }
 

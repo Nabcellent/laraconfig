@@ -19,9 +19,11 @@ use Nabcellent\Laraconfig\Eloquent\Setting as SettingModel;
 use Nabcellent\Laraconfig\Facades\Setting;
 use Nabcellent\Laraconfig\Migrator\Data;
 use Nabcellent\Laraconfig\Registrar\SettingRegistrar;
+use Orchestra\Testbench\Attributes\WithMigration;
 use Tests\BaseTestCase;
 use Tests\Dummies\DummyModel;
 
+#[WithMigration]
 class MigrateCommandTest extends BaseTestCase
 {
     use RefreshDatabase;
@@ -50,23 +52,23 @@ class MigrateCommandTest extends BaseTestCase
 
         DB::table('users')->insert([
             [
-                'name' => 'charlie',
-                'email' => 'charlie@email.com',
-                'password' => '123456',
+                'name'       => 'charlie',
+                'email'      => 'charlie@email.com',
+                'password'   => '123456',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'oscar',
-                'email' => 'oscar@email.com',
-                'password' => '123456',
+                'name'       => 'oscar',
+                'email'      => 'oscar@email.com',
+                'password'   => '123456',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => 'delta',
-                'email' => 'delta@email.com',
-                'password' => '123456',
+                'name'       => 'delta',
+                'email'      => 'delta@email.com',
+                'password'   => '123456',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -76,9 +78,9 @@ class MigrateCommandTest extends BaseTestCase
     /**
      * Executes a callback on "production" environment.
      *
-     * @param  Closure  $closure
+     * @param Closure $closure
      */
-    protected function runWhileOnProduction(Closure $closure) : void
+    protected function runWhileOnProduction(Closure $closure): void
     {
         $original = $this->app['env'];
 
@@ -96,7 +98,6 @@ class MigrateCommandTest extends BaseTestCase
      */
     protected function defineDatabaseMigrations(): void
     {
-        $this->loadLaravelMigrations();
         $this->loadMigrationsFrom(__DIR__ . '/../../../database/migrations');
     }
 
@@ -110,17 +111,17 @@ class MigrateCommandTest extends BaseTestCase
     public function test_confirms_deletion_on_production(): void
     {
         Metadata::make()->forceFill([
-            'name' => 'foo',
-            'type' => 'string',
-            'default' => null,
-            'bag' => 'users',
-            'group' => 'default',
+            'name'       => 'foo',
+            'type'       => 'string',
+            'default'    => null,
+            'bag'        => 'users',
+            'group'      => 'default',
             'is_enabled' => true,
         ])->save();
 
         SettingModel::make()->forceFill([
-            'metadata_id' => 1,
-            'settable_id' => 1,
+            'metadata_id'   => 1,
+            'settable_id'   => 1,
             'settable_type' => 'Dummy',
         ])->save();
 
@@ -139,17 +140,17 @@ class MigrateCommandTest extends BaseTestCase
     public function test_bypass_confirms_deletion_on_production_with_force(): void
     {
         Metadata::make()->forceFill([
-            'name' => 'foo',
-            'type' => 'string',
-            'default' => null,
-            'bag' => 'users',
-            'group' => 'default',
+            'name'       => 'foo',
+            'type'       => 'string',
+            'default'    => null,
+            'bag'        => 'users',
+            'group'      => 'default',
             'is_enabled' => true,
         ])->save();
 
         SettingModel::make()->forceFill([
-            'metadata_id' => 1,
-            'settable_id' => 1,
+            'metadata_id'   => 1,
+            'settable_id'   => 1,
             'settable_type' => 'Dummy',
         ])->save();
 
@@ -167,17 +168,17 @@ class MigrateCommandTest extends BaseTestCase
     public function test_confirms_full_refresh_on_production(): void
     {
         Metadata::make()->forceFill([
-            'name' => 'foo',
-            'type' => 'string',
-            'default' => null,
-            'bag' => 'users',
-            'group' => 'default',
+            'name'       => 'foo',
+            'type'       => 'string',
+            'default'    => null,
+            'bag'        => 'users',
+            'group'      => 'default',
             'is_enabled' => true,
         ])->save();
 
         SettingModel::make()->forceFill([
-            'metadata_id' => 1,
-            'settable_id' => 1,
+            'metadata_id'   => 1,
+            'settable_id'   => 1,
             'settable_type' => 'Dummy',
         ])->save();
 
@@ -196,17 +197,17 @@ class MigrateCommandTest extends BaseTestCase
     public function test_bypass_confirms_full_refresh_on_production_with_force(): void
     {
         Metadata::make()->forceFill([
-            'name' => 'foo',
-            'type' => 'string',
-            'default' => null,
-            'bag' => 'users',
-            'group' => 'default',
+            'name'       => 'foo',
+            'type'       => 'string',
+            'default'    => null,
+            'bag'        => 'users',
+            'group'      => 'default',
             'is_enabled' => true,
         ])->save();
 
         SettingModel::make()->forceFill([
-            'metadata_id' => 1,
-            'settable_id' => 1,
+            'metadata_id'   => 1,
+            'settable_id'   => 1,
             'settable_type' => 'Dummy',
         ])->save();
 
@@ -250,14 +251,14 @@ class MigrateCommandTest extends BaseTestCase
     public function test_runs_migrations_but_result_same_if_manifest_equal_to_database(): void
     {
         DB::table('user_settings_metadata')->insert($bag = [
-            'id' => 1,
-            'name'=> 'foo',
-            'type'=> 'string',
-            'default'=> null,
-            'group'=> 'default',
-            'bag'=> 'something_else_entirely',
-            'created_at'=> '2021-07-04 18:16:12',
-            'updated_at'=> '2021-07-04 18:16:12'
+            'id'         => 1,
+            'name'       => 'foo',
+            'type'       => 'string',
+            'default'    => null,
+            'group'      => 'default',
+            'bag'        => 'something_else_entirely',
+            'created_at' => '2021-07-04 18:16:12',
+            'updated_at' => '2021-07-04 18:16:12'
         ]);
 
         Setting::name('foo')->bag('something_else_entirely');
@@ -290,72 +291,72 @@ class MigrateCommandTest extends BaseTestCase
         $this->assertDatabaseCount('user_settings_metadata', 7);
         $rows = [
             [
-                'id' => 1,
-                'name' => 'array',
-                'type' => 'array',
-                'default' => NULL,
-                'group' => 'default',
-                'bag' => 'users',
+                'id'         => 1,
+                'name'       => 'array',
+                'type'       => 'array',
+                'default'    => NULL,
+                'group'      => 'default',
+                'bag'        => 'users',
                 'created_at' => $now->toDateTimeString(),
                 'updated_at' => $now->toDateTimeString(),
             ],
             [
-                'id' => 2,
-                'name' => 'boolean',
-                'type' => 'boolean',
-                'default' => NULL,
-                'group' => 'default',
-                'bag' => 'users',
+                'id'         => 2,
+                'name'       => 'boolean',
+                'type'       => 'boolean',
+                'default'    => NULL,
+                'group'      => 'default',
+                'bag'        => 'users',
                 'created_at' => $now->toDateTimeString(),
                 'updated_at' => $now->toDateTimeString(),
             ],
             [
-                'id' => 3,
-                'name' => 'collection',
-                'type' => 'collection',
-                'default' => NULL,
-                'group' => 'default',
-                'bag' => 'users',
+                'id'         => 3,
+                'name'       => 'collection',
+                'type'       => 'collection',
+                'default'    => NULL,
+                'group'      => 'default',
+                'bag'        => 'users',
                 'created_at' => $now->toDateTimeString(),
                 'updated_at' => $now->toDateTimeString(),
             ],
             [
-                'id' => 4,
-                'name' => 'datetime',
-                'type' => 'datetime',
-                'default' => NULL,
-                'group' => 'default',
-                'bag' => 'users',
+                'id'         => 4,
+                'name'       => 'datetime',
+                'type'       => 'datetime',
+                'default'    => NULL,
+                'group'      => 'default',
+                'bag'        => 'users',
                 'created_at' => $now->toDateTimeString(),
                 'updated_at' => $now->toDateTimeString(),
             ],
             [
-                'id' => 5,
-                'name' => 'float',
-                'type' => 'float',
-                'default' => NULL,
-                'group' => 'default',
-                'bag' => 'users',
+                'id'         => 5,
+                'name'       => 'float',
+                'type'       => 'float',
+                'default'    => NULL,
+                'group'      => 'default',
+                'bag'        => 'users',
                 'created_at' => $now->toDateTimeString(),
                 'updated_at' => $now->toDateTimeString(),
             ],
             [
-                'id' => 6,
-                'name' => 'integer',
-                'type' => 'integer',
-                'default' => NULL,
-                'group' => 'default',
-                'bag' => 'users',
+                'id'         => 6,
+                'name'       => 'integer',
+                'type'       => 'integer',
+                'default'    => NULL,
+                'group'      => 'default',
+                'bag'        => 'users',
                 'created_at' => $now->toDateTimeString(),
                 'updated_at' => $now->toDateTimeString(),
             ],
             [
-                'id' => 7,
-                'name' => 'string',
-                'type' => 'string',
-                'default' => NULL,
-                'group' => 'default',
-                'bag' => 'users',
+                'id'         => 7,
+                'name'       => 'string',
+                'type'       => 'string',
+                'default'    => NULL,
+                'group'      => 'default',
+                'bag'        => 'users',
                 'created_at' => $now->toDateTimeString(),
                 'updated_at' => $now->toDateTimeString(),
             ],
@@ -368,14 +369,14 @@ class MigrateCommandTest extends BaseTestCase
         $this->assertDatabaseCount('user_settings', 7 * 3);
 
         $this->assertDatabaseHas('user_settings', [
-            'id' => 1,
-            'metadata_id' => 1,
+            'id'            => 1,
+            'metadata_id'   => 1,
             'settable_type' => "Tests\\\\Dummies\\\\DummyModel",
-            'settable_id' => 1,
-            'value' => '',
-            'is_enabled' => true,
-            'created_at' => $now->toDateTimeString(),
-            'updated_at' => $now->toDateTimeString(),
+            'settable_id'   => 1,
+            'value'         => '',
+            'is_enabled'    => true,
+            'created_at'    => $now->toDateTimeString(),
+            'updated_at'    => $now->toDateTimeString(),
         ]);
     }
 
@@ -405,32 +406,32 @@ class MigrateCommandTest extends BaseTestCase
 
         $rows = [
             [
-                'id' => 1,
-                'name' => 'foo',
-                'type' => 'string',
+                'id'      => 1,
+                'name'    => 'foo',
+                'type'    => 'string',
                 'default' => 'new_default',
-                'bag' => 'users',
+                'bag'     => 'users',
             ],
             [
-                'id' => 4,
-                'name' => 'quz',
-                'type' => 'boolean',
+                'id'      => 4,
+                'name'    => 'quz',
+                'type'    => 'boolean',
                 'default' => true,
-                'bag' => 'bar_bag',
+                'bag'     => 'bar_bag',
             ],
             [
-                'id' => 5,
-                'name' => 'cougar',
-                'type' => 'string',
+                'id'      => 5,
+                'name'    => 'cougar',
+                'type'    => 'string',
                 'default' => null,
-                'bag' => 'users',
+                'bag'     => 'users',
             ],
         ];
 
         // Assert the database has the new metadata
         foreach ($rows as $row) {
             $this->assertDatabaseHas('user_settings_metadata', array_merge($row, [
-                'group' => 'default',
+                'group'      => 'default',
                 'is_enabled' => true,
                 'created_at' => $now->toDateTimeString(),
                 'updated_at' => $now->toDateTimeString(),
@@ -442,17 +443,17 @@ class MigrateCommandTest extends BaseTestCase
 
         $this->assertDatabaseHas('user_settings', [
             'metadata_id' => 1,
-            'value' => 'foo_default',
+            'value'       => 'foo_default',
         ]);
 
         $this->assertDatabaseHas('user_settings', [
             'metadata_id' => 4,
-            'value' => 'foo_default', // It copies the value, raw.
+            'value'       => 'foo_default', // It copies the value, raw.
         ]);
 
         $this->assertDatabaseHas('user_settings', [
             'metadata_id' => 5,
-            'value' => 'alpha',
+            'value'       => 'alpha',
         ]);
 
         $this->assertDatabaseMissing('user_settings', ['metadata_id' => 2]);
@@ -464,24 +465,24 @@ class MigrateCommandTest extends BaseTestCase
     public function test_deletes_old_settings(): void
     {
         Metadata::make()->forceFill([
-            'id' => 1,
-            'name' => 'foo',
-            'type' => 'string',
-            'default' => null,
-            'bag' => 'users',
-            'group' => 'default',
+            'id'         => 1,
+            'name'       => 'foo',
+            'type'       => 'string',
+            'default'    => null,
+            'bag'        => 'users',
+            'group'      => 'default',
             'is_enabled' => true,
         ])->save();
 
         SettingModel::make()->forceFill([
-            'metadata_id' => 1,
-            'settable_id' => 1,
+            'metadata_id'   => 1,
+            'settable_id'   => 1,
             'settable_type' => 'Dummy',
         ])->save();
 
         SettingModel::make()->forceFill([
-            'metadata_id' => 1,
-            'settable_id' => 2,
+            'metadata_id'   => 1,
+            'settable_id'   => 2,
             'settable_type' => 'Dummy',
         ])->save();
 
@@ -507,7 +508,7 @@ class MigrateCommandTest extends BaseTestCase
 
         $this->resetDeclarations();
 
-        Setting::name('foo')->default('bar')->from('foo')->using(fn ($setting) => 'quz');
+        Setting::name('foo')->default('bar')->from('foo')->using(fn($setting) => 'quz');
 
         $this->artisan('settings:migrate')
             ->assertExitCode(0)
@@ -528,7 +529,7 @@ class MigrateCommandTest extends BaseTestCase
 
         $this->resetDeclarations();
 
-        Setting::name('foo')->default('cougar')->using(static fn () => 'cougar');
+        Setting::name('foo')->default('cougar')->using(static fn() => 'cougar');
 
         $this->artisan('settings:migrate')
             ->assertExitCode(0)
@@ -574,7 +575,7 @@ class MigrateCommandTest extends BaseTestCase
         $this->resetDeclarations();
 
         Setting::name('foo')->default('bar');
-        Setting::name('quz')->from('foo')->using(static fn () => 'cougar');
+        Setting::name('quz')->from('foo')->using(static fn() => 'cougar');
 
         $this->artisan('settings:migrate')
             ->assertExitCode(0)
@@ -590,12 +591,12 @@ class MigrateCommandTest extends BaseTestCase
     public function test_exception_when_migration_target_doesnt_exists(): void
     {
         Metadata::make()->forceFill([
-            'id' => 1,
-            'name' => 'foo',
-            'type' => 'string',
-            'default' => null,
-            'bag' => 'users',
-            'group' => 'default',
+            'id'         => 1,
+            'name'       => 'foo',
+            'type'       => 'string',
+            'default'    => null,
+            'bag'        => 'users',
+            'group'      => 'default',
             'is_enabled' => true,
         ])->save();
 
@@ -611,11 +612,11 @@ class MigrateCommandTest extends BaseTestCase
     public function test_exception_when_models_use_same_table(): void
     {
         Metadata::make()->forceFill([
-            'name' => 'foo',
-            'type' => 'string',
-            'default' => null,
-            'bag' => 'users',
-            'group' => 'default',
+            'name'       => 'foo',
+            'type'       => 'string',
+            'default'    => null,
+            'bag'        => 'users',
+            'group'      => 'default',
             'is_enabled' => true,
         ])->save();
 
@@ -645,11 +646,11 @@ class MigrateCommandTest extends BaseTestCase
         config()->set('laraconfig.cache.enable', true);
 
         Metadata::make()->forceFill([
-            'name' => 'foo',
-            'type' => 'string',
+            'name'    => 'foo',
+            'type'    => 'string',
             'default' => null,
-            'bag' => 'users',
-            'group' => 'default',
+            'bag'     => 'users',
+            'group'   => 'default',
         ])->save();
 
         Setting::name('foo');

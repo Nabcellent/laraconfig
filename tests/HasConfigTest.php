@@ -18,9 +18,11 @@ use Nabcellent\Laraconfig\Eloquent\Scopes\FilterBags;
 use Nabcellent\Laraconfig\Eloquent\Setting;
 use Nabcellent\Laraconfig\HasConfig;
 use Nabcellent\Laraconfig\SettingsCollection;
+use Orchestra\Testbench\Attributes\WithMigration;
 use RuntimeException;
 use Tests\Dummies\DummyModel;
 
+#[WithMigration]
 class HasConfigTest extends BaseTestCase
 {
     use RefreshDatabase;
@@ -62,8 +64,7 @@ class HasConfigTest extends BaseTestCase
      */
     protected function defineDatabaseMigrations(): void
     {
-        $this->loadLaravelMigrations();
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
     }
 
     public function test_creates_settings_on_creation(): void
@@ -449,14 +450,14 @@ class HasConfigTest extends BaseTestCase
             ->andReturn($cache);
 
         $cache->shouldReceive('get')
-            ->with('laraconfig|'.DummyModel::class.'|1')
+            ->with('laraconfig|' . DummyModel::class . '|1')
             ->andReturnNull();
 
         $cache->shouldReceive('forget')
-            ->with('laraconfig|'.DummyModel::class.'|1');
+            ->with('laraconfig|' . DummyModel::class . '|1');
 
         $cache->shouldReceive('forget')
-            ->with('laraconfig|'.DummyModel::class.'|1:time');
+            ->with('laraconfig|' . DummyModel::class . '|1:time');
 
         $cache->shouldNotReceive('setMultiple');
 
@@ -486,26 +487,28 @@ class HasConfigTest extends BaseTestCase
             ->andReturn($cache);
 
         $cache->shouldReceive('forget')
-            ->with('laraconfig|'.DummyModel::class.'|1');
+            ->with('laraconfig|' . DummyModel::class . '|1');
 
         $cache->shouldReceive('get')
-            ->with('laraconfig|'.DummyModel::class.'|1')
-            ->andReturn(new SettingsCollection([(new Setting())->forceFill([
-                'name' => 'foo',
-            ])]));
+            ->with('laraconfig|' . DummyModel::class . '|1')
+            ->andReturn(new SettingsCollection([
+                (new Setting())->forceFill([
+                    'name' => 'foo',
+                ])
+            ]));
 
         $cache->shouldReceive('get')
-            ->with('laraconfig|'.DummyModel::class.'|1:time')
+            ->with('laraconfig|' . DummyModel::class . '|1:time')
             ->andReturn(now()->subMinute());
 
         $cache->shouldReceive('set')
-            ->with('laraconfig|'.DummyModel::class.'|1', Mockery::type(Collection::class), 60 * 60 * 3)
+            ->with('laraconfig|' . DummyModel::class . '|1', Mockery::type(Collection::class), 60 * 60 * 3)
             ->andReturns();
 
         $cache->shouldReceive('setMultiple')
             ->withArgs(function ($array, $ttl) {
-                static::assertArrayHasKey('laraconfig|'.DummyModel::class.'|1', $array);
-                static::assertArrayHasKey('laraconfig|'.DummyModel::class.'|1:time', $array);
+                static::assertArrayHasKey('laraconfig|' . DummyModel::class . '|1', $array);
+                static::assertArrayHasKey('laraconfig|' . DummyModel::class . '|1:time', $array);
                 static::assertEquals(60 * 60 * 3, $ttl);
                 return true;
             })
@@ -530,16 +533,18 @@ class HasConfigTest extends BaseTestCase
             ->andReturn($cache);
 
         $cache->shouldReceive('forget')
-            ->with('laraconfig|'.DummyModel::class.'|1');
+            ->with('laraconfig|' . DummyModel::class . '|1');
 
         $cache->shouldReceive('get')
-            ->with('laraconfig|'.DummyModel::class.'|1')
-            ->andReturn(new SettingsCollection([(new Setting())->forceFill([
-                'name' => 'foo',
-            ])]));
+            ->with('laraconfig|' . DummyModel::class . '|1')
+            ->andReturn(new SettingsCollection([
+                (new Setting())->forceFill([
+                    'name' => 'foo',
+                ])
+            ]));
 
         $cache->shouldReceive('get')
-            ->with('laraconfig|'.DummyModel::class.'|1:time')
+            ->with('laraconfig|' . DummyModel::class . '|1:time')
             ->andReturn(now()->addMinute());
 
         $cache->shouldNotReceive('set');
@@ -575,27 +580,27 @@ class HasConfigTest extends BaseTestCase
             ->andReturn($cache);
 
         $cache->shouldReceive('get')
-            ->with('laraconfig|'.DummyModel::class.'|1')
+            ->with('laraconfig|' . DummyModel::class . '|1')
             ->once()
             ->andReturnNull();
 
         $cache->shouldReceive('forget')
-            ->with('laraconfig|'.DummyModel::class.'|1')
+            ->with('laraconfig|' . DummyModel::class . '|1')
             ->once();
 
         $cache->shouldReceive('forget')
-            ->with('laraconfig|'.DummyModel::class.'|1:time')
+            ->with('laraconfig|' . DummyModel::class . '|1:time')
             ->once();
 
         $cache->shouldReceive('get')
-            ->with('laraconfig|'.DummyModel::class.'|1:time')
+            ->with('laraconfig|' . DummyModel::class . '|1:time')
             ->once()
             ->andReturnNull();
 
         $cache->shouldReceive('setMultiple')
             ->withArgs(function ($array, $ttl) {
-                static::assertArrayHasKey('laraconfig|'.DummyModel::class.'|1', $array);
-                static::assertArrayHasKey('laraconfig|'.DummyModel::class.'|1:time', $array);
+                static::assertArrayHasKey('laraconfig|' . DummyModel::class . '|1', $array);
+                static::assertArrayHasKey('laraconfig|' . DummyModel::class . '|1:time', $array);
                 static::assertEquals(60 * 60 * 3, $ttl);
                 return true;
             })
@@ -627,25 +632,25 @@ class HasConfigTest extends BaseTestCase
             ->andReturn($cache);
 
         $cache->shouldReceive('get')
-            ->with('laraconfig|'.DummyModel::class.'|1')
+            ->with('laraconfig|' . DummyModel::class . '|1')
             ->once();
 
         $cache->shouldReceive('forget')
-            ->with('laraconfig|'.DummyModel::class.'|1')
+            ->with('laraconfig|' . DummyModel::class . '|1')
             ->once();
 
         $cache->shouldReceive('forget')
-            ->with('laraconfig|'.DummyModel::class.'|1:time')
+            ->with('laraconfig|' . DummyModel::class . '|1:time')
             ->once();
 
         $cache->shouldReceive('get')
-            ->with('laraconfig|'.DummyModel::class.'|1:time')
+            ->with('laraconfig|' . DummyModel::class . '|1:time')
             ->once();
 
         $cache->shouldReceive('setMultiple')
             ->withArgs(function ($array, $ttl) {
-                static::assertArrayHasKey('laraconfig|'.DummyModel::class.'|1', $array);
-                static::assertArrayHasKey('laraconfig|'.DummyModel::class.'|1:time', $array);
+                static::assertArrayHasKey('laraconfig|' . DummyModel::class . '|1', $array);
+                static::assertArrayHasKey('laraconfig|' . DummyModel::class . '|1:time', $array);
                 static::assertEquals(60 * 60 * 3, $ttl);
                 return true;
             })
@@ -692,8 +697,8 @@ class HasConfigTest extends BaseTestCase
     {
         Setting::forceCreate([
             'settable_type' => DummyModel::class,
-            'settable_id' => 1,
-            'metadata_id' => Metadata::forceCreate([
+            'settable_id'   => 1,
+            'metadata_id'   => Metadata::forceCreate([
                 'name'  => 'baz',
                 'type'  => 'string',
                 'bag'   => 'users',
@@ -703,8 +708,8 @@ class HasConfigTest extends BaseTestCase
 
         Setting::forceCreate([
             'settable_type' => DummyModel::class,
-            'settable_id' => 1,
-            'metadata_id' => Metadata::forceCreate([
+            'settable_id'   => 1,
+            'metadata_id'   => Metadata::forceCreate([
                 'name'  => 'quz',
                 'type'  => 'string',
                 'bag'   => 'users',
@@ -714,8 +719,8 @@ class HasConfigTest extends BaseTestCase
 
         Setting::forceCreate([
             'settable_type' => DummyModel::class,
-            'settable_id' => 1,
-            'metadata_id' => Metadata::forceCreate([
+            'settable_id'   => 1,
+            'metadata_id'   => Metadata::forceCreate([
                 'name'  => 'qux',
                 'type'  => 'string',
                 'bag'   => 'users',
@@ -768,8 +773,8 @@ class HasConfigTest extends BaseTestCase
         };
 
         $user->forceFill([
-            'name' => 'maria',
-            'email' => 'maria@mail.com',
+            'name'     => 'maria',
+            'email'    => 'maria@mail.com',
             'password' => '123456',
         ])->save();
 
@@ -802,7 +807,7 @@ class HasConfigTest extends BaseTestCase
 
         $user_alpha->settings->regenerate();
 
-        static::assertEquals('qux', cache()->get('laraconfig|'.DummyModel::class.'|1')->get('foo')->value);
+        static::assertEquals('qux', cache()->get('laraconfig|' . DummyModel::class . '|1')->get('foo')->value);
     }
 
     public function test_checks_settings_has_key(): void
@@ -882,10 +887,11 @@ class HasConfigTest extends BaseTestCase
         $user = new class extends Model {
             use SoftDeletes;
             use HasConfig;
+
             protected $table = 'users';
             protected $attributes = [
-                'name' => 'john',
-                'email' => 'email@email.com',
+                'name'     => 'john',
+                'email'    => 'email@email.com',
                 'password' => '123456'
             ];
         };
@@ -910,10 +916,10 @@ class HasConfigTest extends BaseTestCase
     public function test_allows_for_removing_bags_filter_on_query(): void
     {
         Setting::forceCreate([
-            'value' => 'quz',
-            'settable_id' => 1,
+            'value'         => 'quz',
+            'settable_id'   => 1,
             'settable_type' => (new DummyModel())->getMorphClass(),
-            'metadata_id' =>  Metadata::forceCreate([
+            'metadata_id'   => Metadata::forceCreate([
                 'name'    => 'bar',
                 'type'    => 'string',
                 'default' => 'quz',
@@ -931,7 +937,7 @@ class HasConfigTest extends BaseTestCase
 
     public function test_allows_to_disable_bag_filter(): void
     {
-       Metadata::forceCreate([
+        Metadata::forceCreate([
             'name'    => 'bar',
             'type'    => 'string',
             'default' => 'quz',
@@ -942,13 +948,16 @@ class HasConfigTest extends BaseTestCase
         $user = new class extends Model {
             use SoftDeletes;
             use HasConfig;
+
             protected $table = 'users';
             protected $attributes = [
-                'name' => 'john',
-                'email' => 'email@email.com',
+                'name'     => 'john',
+                'email'    => 'email@email.com',
                 'password' => '123456'
             ];
-            public function filterBags() {
+
+            public function filterBags()
+            {
                 return [];
             }
         };
