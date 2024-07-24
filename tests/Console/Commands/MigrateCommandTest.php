@@ -821,8 +821,8 @@ class MigrateCommandTest extends BaseTestCase
     {
         $filesystem = new Filesystem();
 
-        if ($filesystem->exists(base_path('App/UserPreferences/users.php'))) {
-            $filesystem->delete(base_path('App/UserPreferences/users.php'));
+        if ($filesystem->exists(base_path('app/UserPreferences/users.php'))) {
+            $filesystem->delete(base_path('app/UserPreferences/users.php'));
         }
 
         parent::tearDown();

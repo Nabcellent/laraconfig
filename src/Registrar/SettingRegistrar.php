@@ -61,7 +61,7 @@ class SettingRegistrar
     public function loadDeclarations(): void
     {
         // IF the directory doesn't exists, we won't bulge with reading files.
-        if ($this->filesystem->exists($this->app->basePath('App/UserPreferences'))) {
+        if ($this->filesystem->exists($this->app->basePath('app/UserPreferences'))) {
             $files = $this->filesystem->allFiles($this->manifestsPath);
 
             $this->manifestsLoaded = ! empty($files);
