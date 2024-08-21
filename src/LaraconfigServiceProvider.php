@@ -32,8 +32,6 @@ class LaraconfigServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        ServiceProvider::addProviderToBootstrapFile(LaraconfigServiceProvider::class);
-
         $this->mergeConfigFrom(__DIR__.'/../config/laraconfig.php', 'laraconfig');
 
         $this->app->singleton(SettingRegistrar::class, static function($app): SettingRegistrar {
